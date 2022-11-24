@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/btnHome"
+        android:icon="@drawable/ic_round_home_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/btnElection"
+        android:icon="@drawable/ic_round_how_to_vote_24"
+        android:title="Election" />
+    <item
+        android:id="@+id/btnAlert"
+        android:icon="@drawable/ic_round_notifications_24"
+        android:title="Alert" />
+    <item
+        android:id="@+id/btnProfile"
+        android:icon="@drawable/ic_round_person_24"
+        android:title="Profile" />
+</menu>
