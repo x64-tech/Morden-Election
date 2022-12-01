@@ -23,7 +23,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        button = view.findViewById(R.id.button2);
+        button = view.findViewById(R.id.button3);
 
         button.setOnClickListener(view1 -> {
             Intent intent = new Intent(this.getContext(), LoginActivity.class);

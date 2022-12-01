@@ -1,5 +1,36 @@
 <resources>
-    <string name="app_name">Morden Election</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Modern Election</string>
+    <string name="get_started">Get Started</string>
+    <string name="hero_text">The New Age Election System Based on <b>Blockchain Technology</b> With best security and Transparency in Transactions.</string>
+    <string name="hello_again">Hello, Again</string>
+    <string name="missing">you have been missed</string>
+    <string name="username_hint">username</string>
+    <string name="password_hint">password</string>
+    <string name="login">Login..</string>
+    <string name="register_text">or, click here to register</string>
+    <string name="create_account">Create Account,</string>
+    <string name="register_text1">Register To Get Started.</string>
+    <string name="full_name">Full Name</string>
+
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>
