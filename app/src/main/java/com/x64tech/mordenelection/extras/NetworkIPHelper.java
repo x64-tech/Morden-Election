@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 public class NetworkIPHelper {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    private final String PORT = ":8080/";
     public NetworkIPHelper(Context context) {
         sharedPreferences  = context.getSharedPreferences("MESharedPre", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -22,6 +23,10 @@ public class NetworkIPHelper {
     public void setIPString(String ipString){
         editor.putString("NETWORK_IP", ipString);
         editor.commit();
+    }
+
+    public String getHostAddress(){
+        return "http://"+getIPString()+PORT;
     }
 
 }

@@ -17,10 +17,13 @@ import com.android.volley.toolbox.Volley;
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.extras.NetworkIPHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RegisterActivity extends AppCompatActivity {
     AutoCompleteTextView gender;
     Button registerBtn;
-    EditText name, email, username, password;
+    EditText name, email, username, password, birthdate;
     RequestQueue requestQueue;
     JsonObjectRequest jsonObjectRequest;
     ArrayAdapter<String> genderAdapter;
@@ -43,7 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
         username = findViewById(R.id.usernameReg);
         password = findViewById(R.id.passwordReg);
         gender = findViewById(R.id.gender);
+        birthdate = findViewById(R.id.birthdate);
         registerBtn = findViewById(R.id.register);
+
         networkIPHelper = new NetworkIPHelper(this);
         genderAdapter = new ArrayAdapter<>(this, R.layout.gender_dropdown, new String[]{"Male", "Female"});
 
@@ -53,13 +58,25 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void regReq(){
-        String url = "http://"+networkIPHelper.getIPString()+":8080/auth/test";
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+        String url = networkIPHelper.getHostAddress()+"auth/register";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("name", name.getText().toString());
+            postData.put("email", email.getText().toString());
+            postData.put("male", gender.getText().toString().equals("Male"));
+            postData.put("birthDate", birthdate.getText().toString());
+            postData.put("username", username.getText().toString());
+            postData.put("password", password.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, postData,
                 response -> {
-                    Log.d("res", response.toString());
                     Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show();
+                    finish();
         }, error -> {
             Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
         });
         requestQueue.add(jsonObjectRequest);
     }
