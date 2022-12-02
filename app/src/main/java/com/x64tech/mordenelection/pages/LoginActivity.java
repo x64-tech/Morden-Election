@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 response -> {
                     try {
                         sharedPrefHelper.setToken(response.getString("token"));
+                        sharedPrefHelper.setUserID(response.getString("userID"));
                         Toast.makeText(this, "logged in", Toast.LENGTH_SHORT).show();
                         finish();
                     } catch (JSONException e) {

@@ -43,4 +43,14 @@ public class SharedPrefHelper {
     public Boolean checkToken(){
         return sharedPreferences.getString("TOKEN", "").equals("");
     }
+
+    // userID
+    public void setUserID(String userID){
+        editor.putString("USERID", userID);
+        editor.commit();
+    }
+
+    public String getUserID(){
+        return sharedPreferences.getString("TOKEN", "");
+    }
 }
