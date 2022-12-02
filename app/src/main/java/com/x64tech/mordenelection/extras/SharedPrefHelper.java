@@ -41,7 +41,7 @@ public class SharedPrefHelper {
     }
 
     public Boolean checkToken(){
-        return sharedPreferences.getString("TOKEN", "").equals("");
+        return !sharedPreferences.getString("TOKEN", "").equals("");
     }
 
     // userID
@@ -51,6 +51,6 @@ public class SharedPrefHelper {
     }
 
     public String getUserID(){
-        return sharedPreferences.getString("TOKEN", "");
+        return sharedPreferences.getString("USERID", "");
     }
 }
