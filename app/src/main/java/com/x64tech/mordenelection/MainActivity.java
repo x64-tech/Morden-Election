@@ -6,21 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.x64tech.mordenelection.databinding.ActivityMainBinding;
-import com.x64tech.mordenelection.databinding.FragmentAlertBinding;
-import com.x64tech.mordenelection.extras.Helper;
-import com.x64tech.mordenelection.extras.NetworkIPHelper;
+import com.x64tech.mordenelection.extras.SharedPrefHelper;
 import com.x64tech.mordenelection.pages.AlertFragment;
 import com.x64tech.mordenelection.pages.ElectionFragment;
 import com.x64tech.mordenelection.pages.HomeFragment;
@@ -28,7 +19,7 @@ import com.x64tech.mordenelection.pages.ProfileFragment;
 
  public class MainActivity extends AppCompatActivity {
 
-     NetworkIPHelper networkIPHelper;
+     SharedPrefHelper sharedPrefHelper;
      ActivityMainBinding mainBinding;
      AlertDialog.Builder alertDialogBuilder;
 
@@ -39,12 +30,12 @@ import com.x64tech.mordenelection.pages.ProfileFragment;
         setContentView(mainBinding.getRoot());
         replace(new HomeFragment());
 
-        networkIPHelper = new NetworkIPHelper(this);
+        sharedPrefHelper = new SharedPrefHelper(this);
 
-        Toast.makeText(this, networkIPHelper.getIPString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, sharedPrefHelper.getIPString(), Toast.LENGTH_SHORT).show();
 
 
-        if (networkIPHelper.checkIPString()) {
+        if (sharedPrefHelper.checkIPString()) {
 
             alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -58,7 +49,7 @@ import com.x64tech.mordenelection.pages.ProfileFragment;
                 if (editText.getText().toString().equals(""))
                     Toast.makeText(this, "Network IP in required..", Toast.LENGTH_SHORT).show();
                 else
-                    networkIPHelper.setIPString(editText.getText().toString());
+                    sharedPrefHelper.setIPString(editText.getText().toString());
 
             });
             alertDialogBuilder.setNegativeButton("Cancel", (dialogInterface, i) -> {
@@ -68,7 +59,7 @@ import com.x64tech.mordenelection.pages.ProfileFragment;
             alertDialogBuilder.show();
         }
 
-        Toast.makeText(this, networkIPHelper.getIPString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, sharedPrefHelper.getIPString(), Toast.LENGTH_SHORT).show();
 
         mainBinding.navigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId())

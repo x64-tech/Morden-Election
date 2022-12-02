@@ -8,16 +8,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.x64tech.mordenelection.R;
-import com.x64tech.mordenelection.extras.Helper;
-import com.x64tech.mordenelection.extras.NetworkIPHelper;
+import com.x64tech.mordenelection.extras.SharedPrefHelper;
 
 
 public class HomeFragment extends Fragment {
-    NetworkIPHelper networkIPHelper;
+    SharedPrefHelper sharedPrefHelper;
     TextView textView;
     AlertDialog.Builder alertDialogBuilder;
 
@@ -25,7 +23,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
-        networkIPHelper = new NetworkIPHelper(this.getContext());
+        sharedPrefHelper = new SharedPrefHelper(this.getContext());
         textView = view.findViewById(R.id.textView);
         return view;
     }

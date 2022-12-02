@@ -3,7 +3,6 @@ package com.x64tech.mordenelection.pages;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -15,7 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.x64tech.mordenelection.R;
-import com.x64tech.mordenelection.extras.NetworkIPHelper;
+import com.x64tech.mordenelection.extras.SharedPrefHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     JsonObjectRequest jsonObjectRequest;
     ArrayAdapter<String> genderAdapter;
-    NetworkIPHelper networkIPHelper;
+    SharedPrefHelper sharedPrefHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         birthdate = findViewById(R.id.birthdate);
         registerBtn = findViewById(R.id.register);
 
-        networkIPHelper = new NetworkIPHelper(this);
+        sharedPrefHelper = new SharedPrefHelper(this);
         genderAdapter = new ArrayAdapter<>(this, R.layout.gender_dropdown, new String[]{"Male", "Female"});
 
         gender.setAdapter(genderAdapter);
@@ -58,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void regReq(){
-        String url = networkIPHelper.getHostAddress()+"auth/register";
+        String url = sharedPrefHelper.getHostAddress()+"auth/register";
         JSONObject postData = new JSONObject();
         try {
             postData.put("name", name.getText().toString());
