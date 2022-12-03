@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.extras.SharedPrefHelper;
 
@@ -102,5 +103,8 @@ public class ProfileFragment extends Fragment {
         SharedPreferences preferences = sharedPrefHelper.getSharedPreferences();
         user_name.setText(preferences.getString("name", ""));
         user_email.setText(preferences.getString("email", ""));
+        Glide.with(this)
+                .load(sharedPrefHelper.getHostAddress()+preferences.getString("userDP", ""))
+                .into(userDP);
     }
 }
