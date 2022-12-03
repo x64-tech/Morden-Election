@@ -2,6 +2,7 @@ package com.x64tech.mordenelection.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText name, email, username, password, birthdate;
     RequestQueue requestQueue;
     JsonObjectRequest jsonObjectRequest;
+    ProgressDialog progressDialog;
     ArrayAdapter<String> genderAdapter;
     SharedPrefHelper sharedPrefHelper;
     @Override
@@ -54,9 +56,16 @@ public class RegisterActivity extends AppCompatActivity {
         gender.setAdapter(genderAdapter);
 
         requestQueue = Volley.newRequestQueue(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("loading");
+        progressDialog.setMessage("Wait while registering you...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     private void regReq(){
+        progressDialog.show();
         String url = sharedPrefHelper.getHostAddress()+"auth/register";
         JSONObject postData = new JSONObject();
         try {
@@ -71,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, postData,
                 response -> {
-                    Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                     finish();
         }, error -> {
             Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();

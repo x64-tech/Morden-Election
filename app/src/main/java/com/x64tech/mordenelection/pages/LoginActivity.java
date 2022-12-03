@@ -2,6 +2,7 @@ package com.x64tech.mordenelection.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView regText;
     Button loginButton;
     EditText username, password;
+    ProgressDialog progressDialog;
     SharedPrefHelper sharedPrefHelper;
     RequestQueue requestQueue;
     JsonObjectRequest loginRequest, profileRequest;
@@ -56,9 +58,16 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedPrefHelper = new SharedPrefHelper(this);
         requestQueue = Volley.newRequestQueue(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("loading");
+        progressDialog.setMessage("Wait while logging you...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     private void login(){
+        progressDialog.show();
         String url = sharedPrefHelper.getHostAddress()+"auth/login";
         JSONObject postData = new JSONObject();
         try {
@@ -85,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                     error.printStackTrace();
                     finish();
         });
+
         requestQueue.add(loginRequest);
     }
 
@@ -102,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                                 response.getString("cryptoID"),
                                 response.getString("birthDate"));
                         Toast.makeText(this, "user info saved", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                         finishAffinity();
                         Toast.makeText(this, "Logged in, restart app", Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
