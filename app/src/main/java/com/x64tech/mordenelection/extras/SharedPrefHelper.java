@@ -53,4 +53,20 @@ public class SharedPrefHelper {
     public String getUserID(){
         return sharedPreferences.getString("USERID", "");
     }
+
+    public void setUserProfile(String name, String email, String username, String userDP,
+                               boolean male, String cryptoID, String birthDate){
+        editor.putString("name", name);
+        editor.putString("email", email);
+        editor.putString("username", username);
+        editor.putString("userDP", userDP);
+        editor.putBoolean("male", male);
+        editor.putString("cryptoID", cryptoID);
+        editor.putString("birthDate", birthDate);
+        editor.commit();
+    }
+
+    public SharedPreferences getSharedPreferences(){
+        return sharedPreferences;
+    }
 }
