@@ -19,6 +19,9 @@ import com.x64tech.mordenelection.extras.SharedPrefHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
     TextView regText;
@@ -26,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText username, password;
     SharedPrefHelper sharedPrefHelper;
     RequestQueue requestQueue;
-    JsonObjectRequest jsonObjectRequest;
+    JsonObjectRequest loginRequest, profileRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +68,13 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, postData,
+        loginRequest = new JsonObjectRequest(Request.Method.POST, url, postData,
                 response -> {
                     try {
                         sharedPrefHelper.setToken(response.getString("token"));
                         sharedPrefHelper.setUserID(response.getString("userID"));
                         Toast.makeText(this, "logged in", Toast.LENGTH_SHORT).show();
-                        finish();
+                        profile();
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -80,8 +83,40 @@ public class LoginActivity extends AppCompatActivity {
                 error -> {
                     Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
                     error.printStackTrace();
+                    finish();
         });
-        requestQueue.add(jsonObjectRequest);
+        requestQueue.add(loginRequest);
+    }
+
+    private void profile(){
+        String url = sharedPrefHelper.getHostAddress()+"user/profile/"+sharedPrefHelper.getUserID();
+        profileRequest = new JsonObjectRequest(
+                Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        sharedPrefHelper.setUserProfile(response.getString("name"),
+                                response.getString("email"),
+                                response.getString("username"),
+                                response.getString("userDP"),
+                                response.getBoolean("male"),
+                                response.getString("cryptoID"),
+                                response.getString("birthDate"));
+                        Toast.makeText(this, "user info saved", Toast.LENGTH_SHORT).show();
+                        finishAffinity();
+                        Toast.makeText(this, "Logged in, restart app", Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                Throwable::printStackTrace){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer "+sharedPrefHelper.getToken());
+                return params;
+            }
+        };
+        requestQueue.add(profileRequest);
     }
 
 }
