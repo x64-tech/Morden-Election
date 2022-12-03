@@ -28,7 +28,6 @@ import com.x64tech.mordenelection.pages.ProfileFragment;
         super.onCreate(savedInstanceState);
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainBinding.getRoot());
-        replace(new HomeFragment());
 
         sharedPrefHelper = new SharedPrefHelper(this);
 
@@ -59,7 +58,7 @@ import com.x64tech.mordenelection.pages.ProfileFragment;
             alertDialogBuilder.show();
         }
 
-        Toast.makeText(this, sharedPrefHelper.getIPString(), Toast.LENGTH_SHORT).show();
+        replace(new HomeFragment());
 
         mainBinding.navigation.setOnItemSelectedListener(item -> {
             switch (item.getItemId())
