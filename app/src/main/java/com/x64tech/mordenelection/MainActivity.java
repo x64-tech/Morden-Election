@@ -44,6 +44,7 @@ import com.x64tech.mordenelection.pages.ProfileFragment;
 
             alertDialogBuilder.setTitle("Please Enter Network IP.");
             alertDialogBuilder.setView(editText);
+            alertDialogBuilder.setCancelable(false);
             alertDialogBuilder.setPositiveButton("Ok", (dialogInterface, i) -> {
                 if (editText.getText().toString().equals(""))
                     Toast.makeText(this, "Network IP in required..", Toast.LENGTH_SHORT).show();
