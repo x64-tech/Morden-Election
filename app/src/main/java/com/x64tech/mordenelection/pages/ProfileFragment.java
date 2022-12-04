@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class ProfileFragment extends Fragment {
             });
 
             view.findViewById(R.id.logout).setOnClickListener(view12 -> {
-
+                logout();
             });
         }else {
             interButton.setText("Login");
@@ -106,5 +107,21 @@ public class ProfileFragment extends Fragment {
         Glide.with(this)
                 .load(sharedPrefHelper.getHostAddress()+preferences.getString("userDP", ""))
                 .into(userDP);
+    }
+
+    private void logout(){
+        System.out.println("Logging out");
+        AlertDialog.Builder logoutBuilder = new AlertDialog.Builder(this.requireContext());
+        logoutBuilder.setTitle("Logout");
+        logoutBuilder.setMessage("Are you sure to logout ?");
+        logoutBuilder.setPositiveButton("Yes", (dialogInterface, i) -> {
+            sharedPrefHelper.logout();
+            dialogInterface.dismiss();
+            requireActivity().finish();
+        });
+        logoutBuilder.setNegativeButton("No", (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+        });
+        logoutBuilder.show();
     }
 }

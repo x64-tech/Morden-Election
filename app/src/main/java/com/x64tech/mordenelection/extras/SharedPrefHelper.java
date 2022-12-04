@@ -69,4 +69,9 @@ public class SharedPrefHelper {
     public SharedPreferences getSharedPreferences(){
         return sharedPreferences;
     }
+
+    public void logout(){
+        editor.clear();
+        editor.commit();
+    }
 }
