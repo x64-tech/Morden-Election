@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
@@ -25,24 +25,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/userDP"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/dp_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.16"
+                app:shapeAppearanceOverlay="@style/CornerSize"
                 tools:src="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
                 android:text="Unknown User"
                 android:textSize="24sp"
                 android:textStyle="bold"
