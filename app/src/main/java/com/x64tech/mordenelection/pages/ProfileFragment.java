@@ -59,7 +59,8 @@ public class ProfileFragment extends Fragment {
             });
 
             view.findViewById(R.id.Information).setOnClickListener(view12 -> {
-
+                intent = new Intent(this.getContext(), MyInformation.class);
+                startActivity(intent);
             });
 
             view.findViewById(R.id.settings).setOnClickListener(view12 -> {
