@@ -15,8 +15,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="4dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -76,162 +76,158 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/proSettingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Information"
+            android:id="@+id/information"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/setting_background"
-            android:clickable="true"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/setting_button_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:showIn="@layout/fragment_profile">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/person"
+                android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_round_person_34"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_outline_person_32" />
 
             <TextView
+                android:id="@+id/textView21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="My Information"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@+id/person"
-                app:layout_constraintStart_toEndOf="@+id/person"
-                app:layout_constraintTop_toTopOf="@+id/person" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
             <ImageView
-                android:id="@+id/onearrow"
+                android:id="@+id/imageView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_round_arrow_forward_ios_24"
-                app:layout_constraintBottom_toBottomOf="@+id/person"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/person" />
-
+                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:srcCompat="@drawable/ic_round_arrow_forward_ios_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/settings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/setting_background"
-            android:clickable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Information"
-            tools:showIn="@layout/fragment_profile">
+            android:background="@drawable/setting_button_background"
+            app:layout_constraintEnd_toEndOf="@+id/information"
+            app:layout_constraintStart_toStartOf="@+id/information"
+            app:layout_constraintTop_toBottomOf="@+id/information">
 
             <ImageView
-                android:id="@+id/twoStart"
+                android:id="@+id/imageView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_round_settings_34"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_outline_settings_32" />
 
             <TextView
+                android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="Settings"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@+id/twoStart"
-                app:layout_constraintStart_toEndOf="@+id/twoStart"
-                app:layout_constraintTop_toTopOf="@+id/twoStart" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="@+id/imageView7" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/imageView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_round_arrow_forward_ios_24"
-                app:layout_constraintBottom_toBottomOf="@+id/twoStart"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/twoStart" />
-
+                app:layout_constraintTop_toTopOf="@+id/imageView7"
+                app:srcCompat="@drawable/ic_round_arrow_forward_ios_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/logout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/setting_background"
-            android:clickable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings"
-            tools:showIn="@layout/fragment_profile">
+            android:background="@drawable/setting_button_background"
+            app:layout_constraintEnd_toEndOf="@+id/settings"
+            app:layout_constraintStart_toStartOf="@+id/settings"
+            app:layout_constraintTop_toBottomOf="@+id/settings">
 
             <ImageView
-                android:id="@+id/threeStart"
+                android:id="@+id/imageView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_round_power_settings_new_34"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_outline_power_settings_new_32" />
 
             <TextView
+                android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="Logout"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@+id/threeStart"
-                app:layout_constraintStart_toEndOf="@+id/threeStart"
-                app:layout_constraintTop_toTopOf="@+id/threeStart" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+                app:layout_constraintStart_toEndOf="@+id/imageView9"
+                app:layout_constraintTop_toTopOf="@+id/imageView9" />
 
             <ImageView
-                android:id="@+id/threeEnd"
+                android:id="@+id/imageView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_round_arrow_forward_ios_24"
-                app:layout_constraintBottom_toBottomOf="@+id/threeStart"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView9"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/threeStart" />
-
+                app:layout_constraintTop_toTopOf="@+id/imageView9"
+                app:srcCompat="@drawable/ic_round_arrow_forward_ios_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
