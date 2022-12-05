@@ -38,13 +38,11 @@ public class ProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initVAR(this.getContext());
-        System.out.println("in on create");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        System.out.println("in on create view");
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         graphicalINIT(view);
@@ -54,7 +52,7 @@ public class ProfileFragment extends Fragment {
             setUserData();
 
             interButton.setOnClickListener(view1 -> {
-                intent = new Intent(this.getContext(), LoginActivity.class);
+                intent = new Intent(this.getContext(), EditProfile.class);
                 startActivity(intent);
             });
 
