@@ -111,7 +111,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logout(){
-        System.out.println("Logging out");
         AlertDialog.Builder logoutBuilder = new AlertDialog.Builder(this.requireContext());
         logoutBuilder.setTitle("Logout");
         logoutBuilder.setMessage("Are you sure to logout ?");
