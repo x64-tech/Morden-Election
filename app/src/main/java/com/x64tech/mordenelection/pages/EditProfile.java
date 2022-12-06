@@ -1,10 +1,10 @@
 package com.x64tech.mordenelection.pages;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.x64tech.mordenelection.R;
@@ -36,6 +34,7 @@ public class EditProfile extends AppCompatActivity {
     RequestQueue requestQueue;
     JsonObjectRequest updateRequest;
 
+    AlertDialog.Builder alertDialog;
     ProgressDialog progressDialog;
 
     @Override
@@ -74,9 +73,10 @@ public class EditProfile extends AppCompatActivity {
         else
             editGender.setText(genderAdapter.getItem(1));
 
+        alertDialog = new AlertDialog.Builder(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("loading");
-        progressDialog.setMessage("Wait while logging you...");
+        progressDialog.setMessage("Wait while updating you...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
     }
@@ -97,10 +97,21 @@ public class EditProfile extends AppCompatActivity {
 
         updateRequest = new JsonObjectRequest(Request.Method.PUT, url, putData,
                 response -> {
-                    Toast.makeText(this, "updated", Toast.LENGTH_SHORT).show();
+                    try {
+                        sharedPrefHelper.updateProfile(response.getString("name"),
+                                response.getString("email"),
+                                response.getBoolean("male"),
+                                response.getString("birthDate"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     progressDialog.dismiss();
+                    Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
                 }, error -> {
-                    Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    alertDialog.setTitle("Error");
+                    alertDialog.setMessage(new String(error.networkResponse.data));
+                    alertDialog.show();
                 }){
             @Override
             public Map<String, String> getHeaders() {
