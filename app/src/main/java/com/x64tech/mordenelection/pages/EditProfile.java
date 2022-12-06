@@ -15,9 +15,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.x64tech.mordenelection.R;
+import com.x64tech.mordenelection.extras.Others;
 import com.x64tech.mordenelection.extras.SharedPrefHelper;
 
 import org.json.JSONException;
@@ -73,10 +73,7 @@ public class EditProfile extends AppCompatActivity {
         editEmail.setText(sharedPrefHelper.getSharedPreferences().getString("email", ""));
         editDOB.setText(sharedPrefHelper.getSharedPreferences().getString("birthDate", ""));
 
-        Glide.with(this)
-                .load(sharedPrefHelper.getHostAddress()+
-                sharedPrefHelper.getSharedPreferences().getString("userDP", ""))
-                .into(imageView);
+        Others.glideRequest(this, imageView);
 
         if (sharedPrefHelper.getSharedPreferences().getBoolean("male", false))
             editGender.setText(genderAdapter.getItem(0));
