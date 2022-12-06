@@ -15,6 +15,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.extras.SharedPrefHelper;
 
@@ -27,6 +29,7 @@ import java.util.Map;
 public class EditProfile extends AppCompatActivity {
 
     Button saveButton;
+    ShapeableImageView imageView;
     AutoCompleteTextView editGender;
     EditText editName, editEmail, editDOB;
     ArrayAdapter<String> genderAdapter;
@@ -56,6 +59,8 @@ public class EditProfile extends AppCompatActivity {
         editEmail = findViewById(R.id.edit_email);
         editGender = findViewById(R.id.edit_gender);
         editDOB = findViewById(R.id.edit_dob);
+        imageView = findViewById(R.id.edit_DP);
+
         requestQueue = Volley.newRequestQueue(this);
 
         saveButton = findViewById(R.id.edit_button);
@@ -67,6 +72,11 @@ public class EditProfile extends AppCompatActivity {
         editName.setText(sharedPrefHelper.getSharedPreferences().getString("name", ""));
         editEmail.setText(sharedPrefHelper.getSharedPreferences().getString("email", ""));
         editDOB.setText(sharedPrefHelper.getSharedPreferences().getString("birthDate", ""));
+
+        Glide.with(this)
+                .load(sharedPrefHelper.getHostAddress()+
+                sharedPrefHelper.getSharedPreferences().getString("userDP", ""))
+                .into(imageView);
 
         if (sharedPrefHelper.getSharedPreferences().getBoolean("male", false))
             editGender.setText(genderAdapter.getItem(0));
