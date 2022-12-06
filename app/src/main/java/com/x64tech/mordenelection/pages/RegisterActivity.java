@@ -1,5 +1,6 @@
 package com.x64tech.mordenelection.pages;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -8,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,15 +29,16 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     ArrayAdapter<String> genderAdapter;
     SharedPrefHelper sharedPrefHelper;
+    AlertDialog.Builder alertDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initVar();
 
-        registerBtn.setOnClickListener(view -> {
-            regReq();
-        });
+        registerBtn.setOnClickListener(view -> regReq());
 
     }
 
@@ -56,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
         gender.setAdapter(genderAdapter);
 
         requestQueue = Volley.newRequestQueue(this);
+
+        alertDialog = new AlertDialog.Builder(this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("loading");
@@ -83,8 +86,10 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     finish();
         }, error -> {
-            Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-            error.printStackTrace();
+            progressDialog.dismiss();
+            alertDialog.setTitle("Error");
+            alertDialog.setMessage(new String(error.networkResponse.data));
+            alertDialog.show();
         });
         requestQueue.add(jsonObjectRequest);
     }

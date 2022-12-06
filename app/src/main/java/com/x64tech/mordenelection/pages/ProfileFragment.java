@@ -65,9 +65,7 @@ public class ProfileFragment extends Fragment {
 
             });
 
-            view.findViewById(R.id.logout).setOnClickListener(view12 -> {
-                logout();
-            });
+            view.findViewById(R.id.logout).setOnClickListener(view12 -> logout());
         }else {
             interButton.setText("Login");
             view.findViewById(R.id.proSettingLayout).setVisibility(View.INVISIBLE);
@@ -117,9 +115,7 @@ public class ProfileFragment extends Fragment {
             dialogInterface.dismiss();
             requireActivity().finish();
         });
-        logoutBuilder.setNegativeButton("No", (dialogInterface, i) -> {
-            dialogInterface.dismiss();
-        });
+        logoutBuilder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
         logoutBuilder.show();
     }
 }

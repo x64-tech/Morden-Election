@@ -1,7 +1,5 @@
 package com.x64tech.mordenelection.pages;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     EditText username, password;
     ProgressDialog progressDialog;
+    AlertDialog.Builder alertDialog;
     SharedPrefHelper sharedPrefHelper;
     RequestQueue requestQueue;
     JsonObjectRequest loginRequest, profileRequest;
@@ -45,9 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        loginButton.setOnClickListener(view -> {
-            login();
-        });
+        loginButton.setOnClickListener(view -> login());
     }
 
     private void initVar(){
@@ -64,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Wait while logging you...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
+
+        alertDialog = new AlertDialog.Builder(this);
     }
 
     private void login(){
@@ -80,9 +82,8 @@ public class LoginActivity extends AppCompatActivity {
         loginRequest = new JsonObjectRequest(Request.Method.POST, url, postData,
                 response -> {
                     try {
-                        sharedPrefHelper.setToken(response.getString("token"));
-                        sharedPrefHelper.setUserID(response.getString("userID"));
-                        Toast.makeText(this, "logged in", Toast.LENGTH_SHORT).show();
+                        sharedPrefHelper.setSensitive(response.getString("userID"),
+                                response.getString("token"));
                         profile();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -90,9 +91,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 },
                 error -> {
-                    Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-                    error.printStackTrace();
-                    finish();
+                    progressDialog.dismiss();
+                    alertDialog.setTitle("Error");
+                    alertDialog.setMessage(new String(error.networkResponse.data));
+                    alertDialog.show();
         });
 
         requestQueue.add(loginRequest);
@@ -111,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                                 response.getBoolean("male"),
                                 response.getString("cryptoID"),
                                 response.getString("birthDate"));
-                        Toast.makeText(this, "user info saved", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                         finishAffinity();
                         Toast.makeText(this, "Logged in, restart app", Toast.LENGTH_SHORT).show();
@@ -119,7 +120,12 @@ public class LoginActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 },
-                Throwable::printStackTrace){
+                error -> {
+                    progressDialog.dismiss();
+                    alertDialog.setTitle("Error");
+                    alertDialog.setMessage(new String(error.networkResponse.data));
+                    alertDialog.show();
+                }){
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<>();
