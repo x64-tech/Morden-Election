@@ -6,33 +6,35 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.x64tech.mordenelection.R;
+import com.x64tech.mordenelection.extras.Others;
 import com.x64tech.mordenelection.extras.SharedPrefHelper;
+import com.x64tech.mordenelection.models.ElectionModel;
 
-import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.List;
 
 
 public class ElectionFragment extends Fragment {
 
-    RecyclerView currentElectionRecycle, upcomingElection, pastElection;
+    RecyclerView currentElectionRecycle, upcomingElectionRecycle, pastElectionRecycle;
     SharedPrefHelper sharedPrefHelper;
     RequestQueue requestQueue;
     JsonObjectRequest electionRequest;
     AlertDialog.Builder alertDialog;
+    List<ElectionModel> currentElection, upcomingElection, pastElection;
     TextView current, upcoming, past;
 
     @Override
@@ -57,17 +59,21 @@ public class ElectionFragment extends Fragment {
     }
     private void initGraphical(View view) {
         currentElectionRecycle = view.findViewById(R.id.currentElectionRecycle);
-        upcomingElection = view.findViewById(R.id.upcomingElectionRecycle);
-        pastElection = view.findViewById(R.id.pastElectionRecycle);
+        upcomingElectionRecycle = view.findViewById(R.id.upcomingElectionRecycle);
+        pastElectionRecycle = view.findViewById(R.id.pastElectionRecycle);
 
-        upcomingElection.setLayoutManager(new LinearLayoutManager(this.requireContext()));
+        upcomingElectionRecycle.setLayoutManager(new LinearLayoutManager(this.requireContext()));
     }
 
     private void getElectionData(){
         String url = sharedPrefHelper.getHostAddress()+"election/allPhaseElection";
         electionRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
-                    Toast.makeText(this.requireContext(), "getting res", Toast.LENGTH_SHORT).show();
+                    try {
+                        JSONArray upcomingElection = response.getJSONArray("upcomingElection");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }, error -> {
                     alertDialog.setTitle("Error");
                     alertDialog.setMessage(new String(error.networkResponse.data));

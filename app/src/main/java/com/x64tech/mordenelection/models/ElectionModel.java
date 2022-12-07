@@ -12,13 +12,13 @@ public class ElectionModel {
 
     private List<Candidates> candidates;
 
-    private LocalDateTime electionBegin;
+    private String electionBegin;
 
-    private LocalDateTime electionEnd;
+    private String electionEnd;
 
     public ElectionModel(String electionID, String electionName, String electionDic,
-                         List<Candidates> candidates, LocalDateTime electionBegin,
-                         LocalDateTime electionEnd) {
+                         List<Candidates> candidates, String electionBegin,
+                         String electionEnd) {
         this.electionID = electionID;
         this.electionName = electionName;
         this.electionDic = electionDic;
@@ -59,19 +59,19 @@ public class ElectionModel {
         this.candidates = candidates;
     }
 
-    public LocalDateTime getElectionBegin() {
+    public String getElectionBegin() {
         return electionBegin;
     }
 
-    public void setElectionBegin(LocalDateTime electionBegin) {
+    public void setElectionBegin(String electionBegin) {
         this.electionBegin = electionBegin;
     }
 
-    public LocalDateTime getElectionEnd() {
+    public String getElectionEnd() {
         return electionEnd;
     }
 
-    public void setElectionEnd(LocalDateTime electionEnd) {
+    public void setElectionEnd(String electionEnd) {
         this.electionEnd = electionEnd;
     }
 
