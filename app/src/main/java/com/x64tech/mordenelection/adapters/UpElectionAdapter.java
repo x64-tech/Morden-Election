@@ -8,18 +8,21 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.models.ElectionModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UpElectionAdapter extends RecyclerView.Adapter<UpElectionAdapter.UpElectionViewHolder> {
 
     Context context;
-    ArrayList<ElectionModel> electionModels;
-    public UpElectionAdapter(Context context, ArrayList<ElectionModel> electionModels) {
+    List<ElectionModel> electionModels;
+    public UpElectionAdapter(Context context, List<ElectionModel> electionModels) {
+        super();
         this.context = context;
         this.electionModels=electionModels;
     }

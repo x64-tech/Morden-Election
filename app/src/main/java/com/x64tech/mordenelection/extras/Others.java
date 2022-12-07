@@ -28,7 +28,7 @@ public class Others {
                 .into(imageView);
     }
 
-    public static List<?> mapElection(JSONArray electionArray) throws JSONException {
+    public static List<ElectionModel> mapElection(JSONArray electionArray) throws JSONException {
         List<ElectionModel> electionModels = new ArrayList<>();
         for (int i = 0; i<= electionArray.length()-1; i++){
             JSONObject jsonObject = electionArray.getJSONObject(i);

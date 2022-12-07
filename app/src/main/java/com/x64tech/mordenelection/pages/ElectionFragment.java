@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.x64tech.mordenelection.R;
+import com.x64tech.mordenelection.adapters.UpElectionAdapter;
 import com.x64tech.mordenelection.extras.Others;
 import com.x64tech.mordenelection.extras.SharedPrefHelper;
 import com.x64tech.mordenelection.models.ElectionModel;
@@ -24,6 +25,7 @@ import com.x64tech.mordenelection.models.ElectionModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,7 +43,6 @@ public class ElectionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initVAR();
-        getElectionData();
     }
 
     @Override
@@ -50,19 +51,21 @@ public class ElectionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_election, container, false);
         initGraphical(view);
+        getElectionData();
         return view;
     }
+
     private void initVAR() {
         sharedPrefHelper = new SharedPrefHelper(this.requireContext());
         requestQueue = Volley.newRequestQueue(this.requireContext());
         alertDialog = new AlertDialog.Builder(this.requireContext());
+
     }
+
     private void initGraphical(View view) {
         currentElectionRecycle = view.findViewById(R.id.currentElectionRecycle);
         upcomingElectionRecycle = view.findViewById(R.id.upcomingElectionRecycle);
         pastElectionRecycle = view.findViewById(R.id.pastElectionRecycle);
-
-        upcomingElectionRecycle.setLayoutManager(new LinearLayoutManager(this.requireContext()));
     }
 
     private void getElectionData(){
@@ -70,7 +73,10 @@ public class ElectionFragment extends Fragment {
         electionRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        JSONArray upcomingElection = response.getJSONArray("upcomingElection");
+                        currentElection = Others.mapElection(response.getJSONArray("currentElection"));
+                        upcomingElection = Others.mapElection(response.getJSONArray("upcomingElection"));
+                        pastElection = Others.mapElection(response.getJSONArray("pastElection"));
+                        displayRecycles(upcomingElection);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -80,5 +86,13 @@ public class ElectionFragment extends Fragment {
                     alertDialog.show();
         });
         requestQueue.add(electionRequest);
+    }
+
+    public void displayRecycles(List<ElectionModel> upcomingElection){
+        UpElectionAdapter adapter = new UpElectionAdapter(this.requireContext(), upcomingElection);
+        upcomingElectionRecycle.setAdapter(adapter);
+        upcomingElectionRecycle.setLayoutManager(
+                new LinearLayoutManager(this.requireContext(),
+                        RecyclerView.HORIZONTAL, false));
     }
 }
