@@ -1,5 +1,6 @@
 package com.x64tech.mordenelection.pages;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +39,7 @@ public class ElectionFragment extends Fragment {
     JsonObjectRequest electionRequest;
     AlertDialog.Builder alertDialog;
     List<ElectionModel> currentElection, upcomingElection, pastElection;
+    ProgressDialog progressDialog;
     TextView current, upcoming, past;
 
     @Override
@@ -56,6 +58,12 @@ public class ElectionFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getElectionData();
+    }
+
     private void initVAR() {
         sharedPrefHelper = new SharedPrefHelper(this.requireContext());
         requestQueue = Volley.newRequestQueue(this.requireContext());
@@ -67,9 +75,16 @@ public class ElectionFragment extends Fragment {
         currentElectionRecycle = view.findViewById(R.id.currentElectionRecycle);
         upcomingElectionRecycle = view.findViewById(R.id.upcomingElectionRecycle);
         pastElectionRecycle = view.findViewById(R.id.pastElectionRecycle);
+
+        progressDialog = new ProgressDialog(this.requireContext());
+        progressDialog.setTitle("loading");
+        progressDialog.setMessage("Wait while getting data...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     private void getElectionData(){
+        progressDialog.show();
         String url = sharedPrefHelper.getHostAddress()+"election/allPhaseElection";
         electionRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -82,6 +97,7 @@ public class ElectionFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }, error -> {
+                    progressDialog.dismiss();
                     alertDialog.setTitle("Error");
                     alertDialog.setMessage(new String(error.networkResponse.data));
                     alertDialog.show();
@@ -102,5 +118,6 @@ public class ElectionFragment extends Fragment {
         upcomingElectionRecycle.setLayoutManager(
                 new LinearLayoutManager(this.requireContext(),
                         RecyclerView.HORIZONTAL, false));
+        progressDialog.dismiss();
     }
 }
