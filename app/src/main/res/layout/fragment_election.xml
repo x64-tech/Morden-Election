@@ -20,38 +20,16 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:text="Upcoming Elections"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentElectionRecycle" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upcomingElectionRecycle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="270dp"
         android:layout_marginTop="16dp"
+        android:scrollbars="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
-
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:text="Past Elections"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upcomingElectionRecycle" />
+        app:layout_constraintTop_toBottomOf="@+id/currentElectionRecycle"
+        tools:listitem="@layout/upcoming_election_card" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pastElectionRecycle"
@@ -61,6 +39,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintTop_toBottomOf="@+id/upcomingElectionRecycle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

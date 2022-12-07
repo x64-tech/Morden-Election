@@ -1,39 +1,57 @@
 package com.x64tech.mordenelection.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.x64tech.mordenelection.R;
+import com.x64tech.mordenelection.models.ElectionModel;
+
+import java.util.ArrayList;
+
 public class UpElectionAdapter extends RecyclerView.Adapter<UpElectionAdapter.UpElectionViewHolder> {
 
     Context context;
-    public UpElectionAdapter(Context context) {
+    ArrayList<ElectionModel> electionModels;
+    public UpElectionAdapter(Context context, ArrayList<ElectionModel> electionModels) {
         this.context = context;
+        this.electionModels=electionModels;
     }
 
     @NonNull
     @Override
     public UpElectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(context).inflate(R.layout.upcoming_election_card, parent, false);
+        return new UpElectionViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UpElectionViewHolder holder, int position) {
-
+        ElectionModel electionModel = electionModels.get(position);
+        holder.electionName.setText(electionModel.getElectionName());
+        holder.electionDec.setText(electionModel.getElectionDic());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return electionModels.size();
     }
 
     public static class UpElectionViewHolder extends RecyclerView.ViewHolder {
 
+        TextView electionName, electionDec;
+        Button readMore;
         public UpElectionViewHolder(@NonNull View itemView) {
             super(itemView);
+            electionName = itemView.findViewById(R.id.electionName);
+            electionDec = itemView.findViewById(R.id.electionDec);
+            readMore = itemView.findViewById(R.id.readMore);
         }
     }
 }

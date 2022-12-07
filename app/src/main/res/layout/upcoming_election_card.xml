@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="250dp"
     android:layout_height="250dp"
-    app:cardCornerRadius="20dp">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/electionName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -26,28 +27,28 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView22"
+            android:id="@+id/electionDec"
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
-            app:layout_constraintEnd_toEndOf="@+id/textView20"
-            app:layout_constraintStart_toStartOf="@+id/textView20"
-            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            app:layout_constraintBottom_toTopOf="@+id/readMore"
+            app:layout_constraintEnd_toEndOf="@+id/electionName"
+            app:layout_constraintStart_toStartOf="@+id/electionName"
+            app:layout_constraintTop_toBottomOf="@+id/electionName"
             app:layout_constraintVertical_bias="0.103" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/readMore"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="Read More"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textView20"
-            app:layout_constraintStart_toStartOf="@+id/textView20" />
+            app:layout_constraintEnd_toEndOf="@+id/electionName"
+            app:layout_constraintStart_toStartOf="@+id/electionName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
