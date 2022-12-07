@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="400dp"
+    android:layout_width="350dp"
     android:layout_height="170dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="10dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp">
 
@@ -11,7 +15,7 @@
         android:layout_height="match_parent">
 
         <ProgressBar
-            android:id="@+id/linearProgressIndicator"
+            android:id="@+id/currentElectionProgress"
             style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -26,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/currentElectionName"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="24dp"
@@ -36,31 +40,31 @@
             android:text="this is on going election"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
-            app:layout_constraintEnd_toStartOf="@+id/linearProgressIndicator"
+            app:layout_constraintBottom_toTopOf="@+id/currentElectionButton"
+            app:layout_constraintEnd_toStartOf="@+id/currentElectionProgress"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearProgressIndicator"
+            app:layout_constraintTop_toTopOf="@+id/currentElectionProgress"
             app:layout_constraintVertical_bias="0.18" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/currentElectionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View Election"
-            app:layout_constraintBottom_toBottomOf="@+id/linearProgressIndicator"
-            app:layout_constraintStart_toStartOf="@+id/textView10" />
+            app:layout_constraintBottom_toBottomOf="@+id/currentElectionProgress"
+            app:layout_constraintStart_toStartOf="@+id/currentElectionName" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/currentElectionPercent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="75"
             android:textSize="34sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/linearProgressIndicator"
-            app:layout_constraintEnd_toEndOf="@+id/linearProgressIndicator"
-            app:layout_constraintStart_toStartOf="@+id/linearProgressIndicator"
-            app:layout_constraintTop_toTopOf="@+id/linearProgressIndicator" />
+            app:layout_constraintBottom_toBottomOf="@+id/currentElectionProgress"
+            app:layout_constraintEnd_toEndOf="@+id/currentElectionProgress"
+            app:layout_constraintStart_toStartOf="@+id/currentElectionProgress"
+            app:layout_constraintTop_toTopOf="@+id/currentElectionProgress" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

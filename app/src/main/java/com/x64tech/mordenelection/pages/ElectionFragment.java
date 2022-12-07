@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.x64tech.mordenelection.R;
+import com.x64tech.mordenelection.adapters.CurrentElectionAdapter;
 import com.x64tech.mordenelection.adapters.UpElectionAdapter;
 import com.x64tech.mordenelection.extras.Others;
 import com.x64tech.mordenelection.extras.SharedPrefHelper;
@@ -76,7 +77,7 @@ public class ElectionFragment extends Fragment {
                         currentElection = Others.mapElection(response.getJSONArray("currentElection"));
                         upcomingElection = Others.mapElection(response.getJSONArray("upcomingElection"));
                         pastElection = Others.mapElection(response.getJSONArray("pastElection"));
-                        displayRecycles(upcomingElection);
+                        displayRecycles(currentElection, upcomingElection);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -88,9 +89,16 @@ public class ElectionFragment extends Fragment {
         requestQueue.add(electionRequest);
     }
 
-    public void displayRecycles(List<ElectionModel> upcomingElection){
-        UpElectionAdapter adapter = new UpElectionAdapter(this.requireContext(), upcomingElection);
-        upcomingElectionRecycle.setAdapter(adapter);
+    public void displayRecycles(List<ElectionModel> currentElection,
+                                List<ElectionModel> upcomingElection){
+        CurrentElectionAdapter adapter1 = new CurrentElectionAdapter(this.requireContext(), currentElection);
+        currentElectionRecycle.setAdapter(adapter1);
+        currentElectionRecycle.setLayoutManager(
+                new LinearLayoutManager(this.requireContext(),
+                        RecyclerView.HORIZONTAL, false));
+
+        UpElectionAdapter adapter2 = new UpElectionAdapter(this.requireContext(), upcomingElection);
+        upcomingElectionRecycle.setAdapter(adapter2);
         upcomingElectionRecycle.setLayoutManager(
                 new LinearLayoutManager(this.requireContext(),
                         RecyclerView.HORIZONTAL, false));
