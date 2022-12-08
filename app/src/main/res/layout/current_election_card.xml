@@ -8,7 +8,7 @@
     android:layout_marginRight="8dp"
     android:layout_marginBottom="10dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="8dp">
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,7 +37,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:maxLines="2"
-            android:text="this is on going election"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/currentElectionButton"
@@ -50,7 +49,7 @@
             android:id="@+id/currentElectionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View Election"
+            android:text="@string/view_election"
             app:layout_constraintBottom_toBottomOf="@+id/currentElectionProgress"
             app:layout_constraintStart_toStartOf="@+id/currentElectionName" />
 
@@ -58,7 +57,6 @@
             android:id="@+id/currentElectionPercent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="75"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/currentElectionProgress"

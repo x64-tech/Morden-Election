@@ -22,7 +22,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_round_how_to_vote_24" />
+            app:srcCompat="@drawable/ic_round_how_to_vote_24"
+            android:contentDescription="@string/icon" />
 
         <TextView
             android:id="@+id/pastElectionText"
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:textSize="24sp"
-            android:textStyle="normal|bold"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imageView11"
             app:layout_constraintStart_toEndOf="@+id/imageView11"
             app:layout_constraintTop_toTopOf="@+id/imageView11" />

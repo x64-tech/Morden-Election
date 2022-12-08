@@ -33,4 +33,7 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="read_more">Read More</string>
+    <string name="view_election">View Election</string>
+    <string name="icon">icon</string>
 </resources>
