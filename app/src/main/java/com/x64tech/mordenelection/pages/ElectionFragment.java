@@ -19,15 +19,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.adapters.CurrentElectionAdapter;
+import com.x64tech.mordenelection.adapters.PastElectionAdapter;
 import com.x64tech.mordenelection.adapters.UpElectionAdapter;
 import com.x64tech.mordenelection.extras.Others;
 import com.x64tech.mordenelection.extras.SharedPrefHelper;
 import com.x64tech.mordenelection.models.ElectionModel;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,9 +37,11 @@ public class ElectionFragment extends Fragment {
     RequestQueue requestQueue;
     JsonObjectRequest electionRequest;
     AlertDialog.Builder alertDialog;
-    List<ElectionModel> currentElection, upcomingElection, pastElection;
     ProgressDialog progressDialog;
-    TextView current, upcoming, past;
+    TextView upcoming;
+    CurrentElectionAdapter adapter1;
+    UpElectionAdapter adapter2;
+    PastElectionAdapter adapter3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,18 +70,18 @@ public class ElectionFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(this.requireContext());
         alertDialog = new AlertDialog.Builder(this.requireContext());
 
+        progressDialog = new ProgressDialog(this.requireContext());
+        progressDialog.setTitle("loading");
+        progressDialog.setMessage("Wait while getting data...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     private void initGraphical(View view) {
         currentElectionRecycle = view.findViewById(R.id.currentElectionRecycle);
         upcomingElectionRecycle = view.findViewById(R.id.upcomingElectionRecycle);
         pastElectionRecycle = view.findViewById(R.id.pastElectionRecycle);
-
-        progressDialog = new ProgressDialog(this.requireContext());
-        progressDialog.setTitle("loading");
-        progressDialog.setMessage("Wait while getting data...");
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
+        upcoming = view.findViewById(R.id.upcomingTextView);
     }
 
     private void getElectionData(){
@@ -89,10 +90,11 @@ public class ElectionFragment extends Fragment {
         electionRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        currentElection = Others.mapElection(response.getJSONArray("currentElection"));
-                        upcomingElection = Others.mapElection(response.getJSONArray("upcomingElection"));
-                        pastElection = Others.mapElection(response.getJSONArray("pastElection"));
-                        displayRecycles(currentElection, upcomingElection);
+                        progressDialog.setMessage("Wait while Setting data...");
+                        displayRecycles(
+                                Others.mapElection(response.getJSONArray("currentElection")),
+                                Others.mapElection(response.getJSONArray("upcomingElection")),
+                                Others.mapElection(response.getJSONArray("pastElection")));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -106,18 +108,35 @@ public class ElectionFragment extends Fragment {
     }
 
     public void displayRecycles(List<ElectionModel> currentElection,
-                                List<ElectionModel> upcomingElection){
-        CurrentElectionAdapter adapter1 = new CurrentElectionAdapter(this.requireContext(), currentElection);
-        currentElectionRecycle.setAdapter(adapter1);
-        currentElectionRecycle.setLayoutManager(
-                new LinearLayoutManager(this.requireContext(),
-                        RecyclerView.HORIZONTAL, false));
+                                List<ElectionModel> upcomingElection,
+                                List<ElectionModel> pastElection){
+        if (currentElection.size()==0){
+            currentElectionRecycle.setVisibility(View.GONE);
+        }else {
+            adapter1 = new CurrentElectionAdapter(this.requireContext(), currentElection);
+            currentElectionRecycle.setAdapter(adapter1);
+            currentElectionRecycle.setLayoutManager(
+                    new LinearLayoutManager(this.requireContext(),
+                            RecyclerView.HORIZONTAL, false));
+        }
 
-        UpElectionAdapter adapter2 = new UpElectionAdapter(this.requireContext(), upcomingElection);
-        upcomingElectionRecycle.setAdapter(adapter2);
-        upcomingElectionRecycle.setLayoutManager(
+        if (upcomingElection.size()==0){
+            upcomingElectionRecycle.setVisibility(View.GONE);
+            upcoming.setVisibility(View.GONE);
+        }else {
+            adapter2 = new UpElectionAdapter(this.requireContext(), upcomingElection);
+            upcomingElectionRecycle.setAdapter(adapter2);
+            upcomingElectionRecycle.setLayoutManager(
+                    new LinearLayoutManager(this.requireContext(),
+                            RecyclerView.HORIZONTAL, false));
+        }
+
+        System.out.println(pastElection);
+        adapter3 = new PastElectionAdapter(this.requireContext(), pastElection);
+        pastElectionRecycle.setAdapter(adapter3);
+        pastElectionRecycle.setLayoutManager(
                 new LinearLayoutManager(this.requireContext(),
-                        RecyclerView.HORIZONTAL, false));
+                        RecyclerView.VERTICAL, false));
         progressDialog.dismiss();
     }
 }
