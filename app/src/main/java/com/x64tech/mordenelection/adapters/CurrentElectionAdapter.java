@@ -1,6 +1,7 @@
 package com.x64tech.mordenelection.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.models.ElectionModel;
+import com.x64tech.mordenelection.pages.ElectionDetails;
 
 import java.util.List;
 
@@ -38,6 +40,12 @@ public class CurrentElectionAdapter
     public void onBindViewHolder(@NonNull CurrentViewHolder holder, int position) {
         ElectionModel electionModel = electionModels.get(position);
         holder.currentElectionName.setText(electionModel.getElectionName());
+        holder.currentElectionButton.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ElectionDetails.class);
+            intent.putExtra("election", electionModel);
+            intent.putExtra("phase", "CurrentElection");
+            context.startActivity(intent);
+        });
     }
 
     @Override

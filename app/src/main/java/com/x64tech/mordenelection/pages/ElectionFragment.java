@@ -101,7 +101,10 @@ public class ElectionFragment extends Fragment {
                 }, error -> {
                     progressDialog.dismiss();
                     alertDialog.setTitle("Error");
-                    alertDialog.setMessage(new String(error.networkResponse.data));
+                    if (error.networkResponse != null)
+                        alertDialog.setMessage(new String(error.networkResponse.data));
+                    else
+                        alertDialog.setMessage(error.toString());
                     alertDialog.show();
         });
         requestQueue.add(electionRequest);

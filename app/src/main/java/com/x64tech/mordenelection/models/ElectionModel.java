@@ -1,9 +1,10 @@
 package com.x64tech.mordenelection.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ElectionModel {
+public class ElectionModel implements Serializable {
     private String electionID;
 
     private String electionName;
