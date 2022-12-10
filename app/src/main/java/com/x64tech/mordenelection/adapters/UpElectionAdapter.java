@@ -1,6 +1,7 @@
 package com.x64tech.mordenelection.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,13 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.models.ElectionModel;
+import com.x64tech.mordenelection.pages.ElectionDetails;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UpElectionAdapter extends RecyclerView.Adapter<UpElectionAdapter.UpElectionViewHolder> {
@@ -39,6 +39,12 @@ public class UpElectionAdapter extends RecyclerView.Adapter<UpElectionAdapter.Up
         ElectionModel electionModel = electionModels.get(position);
         holder.electionName.setText(electionModel.getElectionName());
         holder.electionDec.setText(electionModel.getElectionDic());
+        holder.readMore.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ElectionDetails.class);
+            intent.putExtra("election", electionModel);
+            intent.putExtra("phase", "UpcomingElection");
+            context.startActivity(intent);
+        });
     }
 
     @Override

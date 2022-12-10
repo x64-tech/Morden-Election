@@ -1,6 +1,7 @@
 package com.x64tech.mordenelection.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.models.ElectionModel;
+import com.x64tech.mordenelection.pages.ElectionDetails;
 
 import java.util.List;
 
@@ -35,6 +38,12 @@ public class PastElectionAdapter extends RecyclerView.Adapter<PastElectionAdapte
     public void onBindViewHolder(@NonNull PastViewHolder holder, int position) {
         ElectionModel electionModel = electionModels.get(position);
         holder.pastElectionName.setText(electionModel.getElectionName());
+        holder.cardView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ElectionDetails.class);
+            intent.putExtra("election", electionModel);
+            intent.putExtra("phase", "PastElection");
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -45,9 +54,11 @@ public class PastElectionAdapter extends RecyclerView.Adapter<PastElectionAdapte
     public static class PastViewHolder extends RecyclerView.ViewHolder{
 
         TextView pastElectionName;
+        MaterialCardView cardView;
         public PastViewHolder(@NonNull View itemView) {
             super(itemView);
             pastElectionName = itemView.findViewById(R.id.pastElectionText);
+            cardView = itemView.findViewById(R.id.pastElectionCard);
         }
     }
 }

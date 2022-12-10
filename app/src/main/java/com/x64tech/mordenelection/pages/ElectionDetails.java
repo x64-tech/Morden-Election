@@ -10,9 +10,6 @@ import android.widget.TextView;
 import com.x64tech.mordenelection.R;
 import com.x64tech.mordenelection.models.ElectionModel;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 public class ElectionDetails extends AppCompatActivity {
 
     TextView detailElectionName, detailElectionDic, detailElectionStart;
@@ -41,7 +38,7 @@ public class ElectionDetails extends AppCompatActivity {
         if (phase.equals("CurrentElection")){
             multiButton.setText("Give Vote !"); // TODO add give vote listener
         }else if (phase.equals("UpcomingElection")){
-            multiButton.setText("As Candidate"); // TODO add as a candidate listener
+            multiButton.setText("Candidate"); // TODO add as a candidate listener
         }else {
             multiButton.setVisibility(View.INVISIBLE);
         }
