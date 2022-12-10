@@ -1,10 +1,20 @@
 package com.x64tech.mordenelection.pages;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -86,6 +96,13 @@ public class EditProfile extends AppCompatActivity {
         progressDialog.setMessage("Wait while updating you...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
+
+        imageView.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            intent = Intent.createChooser(intent, "Choose DP");
+            resultLauncher.launch(intent);
+        });
     }
 
     private void update(){
@@ -129,4 +146,27 @@ public class EditProfile extends AppCompatActivity {
         };
         requestQueue.add(updateRequest);
     }
+
+    private void check(){
+        alertDialog.setTitle("Change DP");
+        alertDialog.setMessage("Confirm Change DP ");
+        alertDialog.setPositiveButton("Yes", (dialogInterface, i) -> {
+
+        });
+        alertDialog.setNegativeButton("No", (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+        });
+    }
+
+    ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK){
+                    Intent data = result.getData();
+                    if (data != null) {
+                        Uri uri = data.getData();
+                    }
+                }
+            }
+    );
 }
