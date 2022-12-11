@@ -1,20 +1,17 @@
 package com.x64tech.mordenelection.pages;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -35,6 +32,12 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -56,9 +59,7 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
         initVARS();
 
-        saveButton.setOnClickListener(view -> {
-            update();
-        });
+        saveButton.setOnClickListener(view -> update());
 
     }
 
@@ -105,9 +106,9 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-    private void update(){
+    private void update() {
         progressDialog.show();
-        String url = sharedPrefHelper.getHostAddress()+"user/profile";
+        String url = sharedPrefHelper.getHostAddress() + "user/profile";
         JSONObject putData = new JSONObject();
         try {
             putData.put("userID", sharedPrefHelper.getUserID());
@@ -132,41 +133,67 @@ public class EditProfile extends AppCompatActivity {
                     progressDialog.dismiss();
                     Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
                 }, error -> {
-                    progressDialog.dismiss();
-                    alertDialog.setTitle("Error");
-                    alertDialog.setMessage(new String(error.networkResponse.data));
-                    alertDialog.show();
-                }){
+            progressDialog.dismiss();
+            alertDialog.setTitle("Error");
+            alertDialog.setMessage(new String(error.networkResponse.data));
+            alertDialog.show();
+        }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<>();
-                params.put("Authorization", "Bearer "+sharedPrefHelper.getToken());
+                params.put("Authorization", "Bearer " + sharedPrefHelper.getToken());
                 return params;
             }
         };
         requestQueue.add(updateRequest);
     }
 
-    private void check(){
+    private void confirmToChange(Uri uri) {
         alertDialog.setTitle("Change DP");
-        alertDialog.setMessage("Confirm Change DP ");
-        alertDialog.setPositiveButton("Yes", (dialogInterface, i) -> {
-
-        });
-        alertDialog.setNegativeButton("No", (dialogInterface, i) -> {
-            dialogInterface.dismiss();
-        });
+        alertDialog.setMessage("Confirm Change DP ??\nYour DP will changed shortly.. ");
+        alertDialog.setPositiveButton("Yes", (dialogInterface, i) -> changeDPRequest(uri));
+        alertDialog.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+        alertDialog.show();
     }
 
     ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                if (result.getResultCode() == Activity.RESULT_OK){
+                if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
                     if (data != null) {
-                        Uri uri = data.getData();
+                        confirmToChange(data.getData());
                     }
                 }
             }
     );
+
+    private void changeDPRequest(Uri uri) {
+        Thread thread = new Thread(() -> {
+            try {
+                String url = sharedPrefHelper.getHostAddress() + "user/changeDP/" + sharedPrefHelper.getUserID();
+
+                RequestBody multipartBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("userDP",
+                                Others.getFileName(getApplicationContext(), uri),
+                                RequestBody.create(Others.getByteData(getApplicationContext(), uri)))
+                        .build();
+
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url(url)
+                        .addHeader("Authorization", "Bearer " + sharedPrefHelper.getToken())
+                        .post(multipartBody)
+                        .build();
+
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+                Response response = client.newCall(request).execute();
+                JSONObject jsonObject = new JSONObject(new String(Objects.requireNonNull(response.body()).bytes()));
+                sharedPrefHelper.updateDP(jsonObject.getString("userDP"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+    }
 }

@@ -1,6 +1,12 @@
 package com.x64tech.mordenelection.extras;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -12,6 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,5 +68,40 @@ public class Others {
             );
         }
         return candidates;
+    }
+
+    public static byte[] getByteData(Context context, Uri imagePath)  {
+        InputStream inputStream = null;
+        try {
+            inputStream = context.getContentResolver().openInputStream(imagePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, arrayOutputStream);
+        return arrayOutputStream.toByteArray();
+    }
+
+    @SuppressLint("Range")
+    public static String getFileName(Context context, Uri imagePath){
+        String name = null;
+        Cursor cursor = context.getContentResolver().query(imagePath, null, null, null, null);
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+        } finally {
+            assert cursor != null;
+            cursor.close();
+        }
+        if (name ==null){
+            name = imagePath.getPath();
+            int cut = name.lastIndexOf("/");
+            if (cut != -1){
+                name = name.substring(cut+1);
+            }
+        }
+        return name;
     }
 }
