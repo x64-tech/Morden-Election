@@ -6,4 +6,78 @@
     android:layout_height="match_parent"
     tools:context=".pages.ApplyCandidate">
 
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="36dp"
+        android:text="Formality"
+        android:textSize="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Become a Candidate.."
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout15"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView17">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/candName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Candidate Name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout16"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout15"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout15"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout15">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/imagename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="Image File Name" />
+
+        <Button
+            android:id="@+id/btnChooseSymbol"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Choose Symbole Image" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Apply"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout16"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout16"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout16" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

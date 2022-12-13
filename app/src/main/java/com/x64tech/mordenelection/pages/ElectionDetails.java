@@ -2,6 +2,7 @@ package com.x64tech.mordenelection.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ public class ElectionDetails extends AppCompatActivity {
     TextView detailElectionName, detailElectionDic, detailElectionStart;
     Button multiButton;
     String phase;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,13 @@ public class ElectionDetails extends AppCompatActivity {
             multiButton.setText("Give Vote !"); // TODO add give vote listener
         }else if (phase.equals("UpcomingElection")){
             multiButton.setText("Candidate"); // TODO add as a candidate listener
+            multiButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                  intent = new Intent(getApplicationContext(), ApplyCandidate.class);
+                  startActivity(intent);
+                }
+            });
         }else {
             multiButton.setVisibility(View.INVISIBLE);
         }
