@@ -2,6 +2,7 @@ package com.x64tech.mordenelection.pages;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,10 +31,13 @@ import com.x64tech.mordenelection.extras.SharedPrefHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -50,7 +54,7 @@ public class EditProfile extends AppCompatActivity {
     RequestQueue requestQueue;
     JsonObjectRequest updateRequest;
 
-    AlertDialog.Builder alertDialog;
+    AlertDialog.Builder alertDialog, tempDialog;
     ProgressDialog progressDialog;
 
     @Override
@@ -92,6 +96,7 @@ public class EditProfile extends AppCompatActivity {
             editGender.setText(genderAdapter.getItem(1));
 
         alertDialog = new AlertDialog.Builder(this);
+        tempDialog = new AlertDialog.Builder(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("loading");
         progressDialog.setMessage("Wait while updating you...");
@@ -169,10 +174,8 @@ public class EditProfile extends AppCompatActivity {
     );
 
     private void changeDPRequest(Uri uri) {
-        Thread thread = new Thread(() -> {
-            try {
                 String url = sharedPrefHelper.getHostAddress() + "user/changeDP/" + sharedPrefHelper.getUserID();
-
+                progressDialog.show();
                 RequestBody multipartBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("userDP",
@@ -187,13 +190,33 @@ public class EditProfile extends AppCompatActivity {
                         .build();
 
                 OkHttpClient client = new OkHttpClient().newBuilder().build();
-                Response response = client.newCall(request).execute();
-                JSONObject jsonObject = new JSONObject(new String(Objects.requireNonNull(response.body()).bytes()));
-                sharedPrefHelper.updateDP(jsonObject.getString("userDP"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        thread.start();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        runOnUiThread(() -> {
+                            progressDialog.dismiss();
+                            tempDialog.setMessage(e.toString());
+                            tempDialog.show();
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) {
+                        runOnUiThread(() -> {
+                            progressDialog.dismiss();
+                            try {
+                                if (response.isSuccessful()) {
+                                    JSONObject jsonObject = new JSONObject(
+                                            new String(Objects.requireNonNull(response.body()).bytes()));
+                                    sharedPrefHelper.updateDP(jsonObject.getString("userDP"));
+                                    tempDialog.setMessage("Your DP is update");
+                                    tempDialog.show();
+                                }
+                            } catch (JSONException | IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                });
     }
 }
