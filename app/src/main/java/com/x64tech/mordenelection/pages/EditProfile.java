@@ -88,7 +88,7 @@ public class EditProfile extends AppCompatActivity {
         editEmail.setText(sharedPrefHelper.getSharedPreferences().getString("email", ""));
         editDOB.setText(sharedPrefHelper.getSharedPreferences().getString("birthDate", ""));
 
-        Others.glideRequest(this, imageView);
+        Others.glideRequest(sharedPrefHelper, imageView);
 
         if (sharedPrefHelper.getSharedPreferences().getBoolean("male", false))
             editGender.setText(genderAdapter.getItem(0));

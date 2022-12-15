@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
         SharedPreferences preferences = sharedPrefHelper.getSharedPreferences();
         user_name.setText(preferences.getString("name", ""));
         user_email.setText(preferences.getString("email", ""));
-        Others.glideRequest(this.requireContext(), userDP);
+        Others.glideRequest(sharedPrefHelper, userDP);
     }
 
     private void logout(){
