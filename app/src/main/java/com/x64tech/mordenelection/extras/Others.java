@@ -63,7 +63,8 @@ public class Others {
                             jsonObject.getString("name"),
                             jsonObject.getString("cryptoID"),
                             jsonObject.getString("userID"),
-                            jsonObject.getString("electionID")
+                            jsonObject.getString("electionID"),
+                            jsonObject.getString("symbol")
                     )
             );
         }

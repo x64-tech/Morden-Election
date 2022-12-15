@@ -1,7 +1,6 @@
 package com.x64tech.mordenelection.models;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ElectionModel implements Serializable {
@@ -76,17 +75,19 @@ public class ElectionModel implements Serializable {
         this.electionEnd = electionEnd;
     }
 
-    public static class Candidates {
+    public static class Candidates implements Serializable {
         private final String name;
         private final String cryptoID;
         private final String userID;
         private final String electionID;
+        private final String symbol;
 
-        public Candidates(String name, String cryptoID, String userID, String electionID) {
+        public Candidates(String name, String cryptoID, String userID, String electionID, String symbol) {
             this.name = name;
             this.cryptoID = cryptoID;
             this.userID = userID;
             this.electionID = electionID;
+            this.symbol = symbol;
         }
 
         public String getName() {
@@ -103,6 +104,10 @@ public class ElectionModel implements Serializable {
 
         public String getElectionID() {
             return electionID;
+        }
+
+        public String getSymbol() {
+            return symbol;
         }
     }
 }
