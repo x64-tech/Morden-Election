@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -39,8 +40,7 @@ import com.x64tech.mordenelection.pages.ProfileFragment;
             alertDialogBuilder = new AlertDialog.Builder(this);
 
             final EditText editText = new EditText(this);
-            editText.setHint("192.168.XXX.XXX");
-            editText.setMaxLines(1);
+            editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
             alertDialogBuilder.setTitle("Please Enter Network IP.");
             alertDialogBuilder.setView(editText);
