@@ -52,20 +52,14 @@ public class SharedPrefHelper {
         editor.commit();
     }
 
-    public void setUserProfile(String name, String email, String username, String userDP,
+    public void setUserProfile(String name, String email, String username,
                                boolean male, String cryptoID, String birthDate){
         editor.putString("name", name);
         editor.putString("email", email);
         editor.putString("username", username);
-        editor.putString("userDP", userDP);
         editor.putBoolean("male", male);
         editor.putString("cryptoID", cryptoID);
         editor.putString("birthDate", birthDate);
-        editor.commit();
-    }
-
-    public void updateDP(String userDP){
-        editor.putString("userDP", userDP);
         editor.commit();
     }
 

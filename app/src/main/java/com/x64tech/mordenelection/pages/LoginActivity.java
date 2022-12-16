@@ -109,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
                         sharedPrefHelper.setUserProfile(response.getString("name"),
                                 response.getString("email"),
                                 response.getString("username"),
-                                response.getString("userDP"),
                                 response.getBoolean("male"),
                                 response.getString("cryptoID"),
                                 response.getString("birthDate"));
