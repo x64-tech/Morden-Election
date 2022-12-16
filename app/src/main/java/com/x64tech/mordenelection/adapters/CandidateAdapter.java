@@ -43,7 +43,7 @@ public class CandidateAdapter
         holder.cand_Name.setText(candidate.getName());
         holder.cand_id.setText(candidate.getUserID());
         // TODO get votes of candidates
-        Others.glideRequest(sharedPrefHelper, holder.cand_image);
+        Others.glideRequest(candidate.getSymbol(), holder.cand_image, sharedPrefHelper.getToken());
     }
 
     @Override

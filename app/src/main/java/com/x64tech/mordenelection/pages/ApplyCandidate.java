@@ -77,8 +77,8 @@ public class ApplyCandidate extends AppCompatActivity {
     }
 
     private void makeReq(){
-        String url = sharedPrefHelper.getHostAddress() + "election/applyForCandidate";
-
+        final String url = sharedPrefHelper.getHostAddress() + "election/applyForCandidate";
+        progressDialog.show();
         RequestBody multipartBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("symbol",
@@ -95,25 +95,28 @@ public class ApplyCandidate extends AppCompatActivity {
                 .addHeader("Authorization", "Bearer " + sharedPrefHelper.getToken())
                 .post(multipartBody)
                 .build();
-        progressDialog.show();
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                progressDialog.dismiss();
                 e.printStackTrace();
+                System.out.println("request failed");
+                runOnUiThread(()->{
+                    progressDialog.dismiss();
+                    alertDialog.setMessage(e.toString());
+                    alertDialog.show();
+                });
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response res) throws IOException {
-                progressDialog.dismiss();
+            public void onResponse(@NonNull Call call, @NonNull Response res) {
                 runOnUiThread(() -> {
-                    try {
-                        alertDialog.setMessage(new String(res.body().bytes()));
-                        alertDialog.show();
-                    } catch (IOException e){
-                        e.printStackTrace();
-                    }
-
+                    progressDialog.dismiss();
+                    if (res.isSuccessful())
+                        alertDialog.setMessage("Successfully applied for candidate");
+                    else
+                        alertDialog.setMessage("Failed to apply for candidate");
+                    alertDialog.show();
                 });
             }
         });

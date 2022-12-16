@@ -26,7 +26,6 @@ import com.x64tech.mordenelection.extras.SharedPrefHelper;
 public class ProfileFragment extends Fragment {
 
     private Button interButton;
-    private ImageView userDP;
     private TextView user_name, user_email;
     private SharedPrefHelper sharedPrefHelper;
     private Intent intent;
@@ -87,7 +86,6 @@ public class ProfileFragment extends Fragment {
 
     private void graphicalINIT(View view){
         interButton = view.findViewById(R.id.interButton);
-        userDP = view.findViewById(R.id.userDP);
         user_name = view.findViewById(R.id.user_name);
         user_email = view.findViewById(R.id.user_email);
     }
@@ -101,11 +99,10 @@ public class ProfileFragment extends Fragment {
         SharedPreferences preferences = sharedPrefHelper.getSharedPreferences();
         user_name.setText(preferences.getString("name", ""));
         user_email.setText(preferences.getString("email", ""));
-        Others.glideRequest(sharedPrefHelper, userDP);
     }
 
     private void logout(){
-        AlertDialog.Builder logoutBuilder = new AlertDialog.Builder(this.requireContext());
+        AlertDialog.Builder logoutBuilder = new AlertDialog.Builder(this.getContext());
         logoutBuilder.setTitle("Logout");
         logoutBuilder.setMessage("Are you sure to logout ?");
         logoutBuilder.setPositiveButton("Yes", (dialogInterface, i) -> {

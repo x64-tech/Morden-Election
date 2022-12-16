@@ -46,14 +46,13 @@ import okhttp3.Response;
 public class EditProfile extends AppCompatActivity {
 
     Button saveButton;
-    ShapeableImageView imageView;
     AutoCompleteTextView editGender;
     EditText editName, editEmail, editDOB;
     ArrayAdapter<String> genderAdapter;
     SharedPrefHelper sharedPrefHelper;
     RequestQueue requestQueue;
     JsonObjectRequest updateRequest;
-
+    OkHttpClient client;
     AlertDialog.Builder alertDialog, tempDialog;
     ProgressDialog progressDialog;
 
@@ -74,10 +73,9 @@ public class EditProfile extends AppCompatActivity {
         editEmail = findViewById(R.id.edit_email);
         editGender = findViewById(R.id.edit_gender);
         editDOB = findViewById(R.id.edit_dob);
-        imageView = findViewById(R.id.edit_DP);
 
         requestQueue = Volley.newRequestQueue(this);
-
+        client = new OkHttpClient().newBuilder().build();
         saveButton = findViewById(R.id.edit_button);
 
         genderAdapter = new ArrayAdapter<>(this, R.layout.gender_dropdown, new String[]{"Male", "Female"});
@@ -87,8 +85,6 @@ public class EditProfile extends AppCompatActivity {
         editName.setText(sharedPrefHelper.getSharedPreferences().getString("name", ""));
         editEmail.setText(sharedPrefHelper.getSharedPreferences().getString("email", ""));
         editDOB.setText(sharedPrefHelper.getSharedPreferences().getString("birthDate", ""));
-
-        Others.glideRequest(sharedPrefHelper, imageView);
 
         if (sharedPrefHelper.getSharedPreferences().getBoolean("male", false))
             editGender.setText(genderAdapter.getItem(0));
@@ -102,13 +98,6 @@ public class EditProfile extends AppCompatActivity {
         progressDialog.setMessage("Wait while updating you...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
-
-        imageView.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            intent = Intent.createChooser(intent, "Choose DP");
-            resultLauncher.launch(intent);
-        });
     }
 
     private void update() {
@@ -151,72 +140,5 @@ public class EditProfile extends AppCompatActivity {
             }
         };
         requestQueue.add(updateRequest);
-    }
-
-    private void confirmToChange(Uri uri) {
-        alertDialog.setTitle("Change DP");
-        alertDialog.setMessage("Confirm Change DP ??\nYour DP will changed shortly.. ");
-        alertDialog.setPositiveButton("Yes", (dialogInterface, i) -> changeDPRequest(uri));
-        alertDialog.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
-        alertDialog.show();
-    }
-
-    ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    if (data != null) {
-                        confirmToChange(data.getData());
-                    }
-                }
-            }
-    );
-
-    private void changeDPRequest(Uri uri) {
-                String url = sharedPrefHelper.getHostAddress() + "user/changeDP/" + sharedPrefHelper.getUserID();
-                progressDialog.show();
-                RequestBody multipartBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("userDP",
-                                Others.getFileName(getApplicationContext(), uri),
-                                RequestBody.create(Others.getByteData(getApplicationContext(), uri)))
-                        .build();
-
-                okhttp3.Request request = new okhttp3.Request.Builder()
-                        .url(url)
-                        .addHeader("Authorization", "Bearer " + sharedPrefHelper.getToken())
-                        .post(multipartBody)
-                        .build();
-
-                OkHttpClient client = new OkHttpClient().newBuilder().build();
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        runOnUiThread(() -> {
-                            progressDialog.dismiss();
-                            tempDialog.setMessage(e.toString());
-                            tempDialog.show();
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) {
-                        runOnUiThread(() -> {
-                            progressDialog.dismiss();
-                            try {
-                                if (response.isSuccessful()) {
-                                    JSONObject jsonObject = new JSONObject(
-                                            new String(Objects.requireNonNull(response.body()).bytes()));
-                                    sharedPrefHelper.updateDP(jsonObject.getString("userDP"));
-                                    tempDialog.setMessage("Your DP is update");
-                                    tempDialog.show();
-                                }
-                            } catch (JSONException | IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-                });
     }
 }

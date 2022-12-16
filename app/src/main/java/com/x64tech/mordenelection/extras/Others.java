@@ -25,10 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Others {
-    public static void glideRequest(SharedPrefHelper sharedPrefHelper, ImageView imageView){
-        GlideUrl url1 = new GlideUrl(sharedPrefHelper.getSharedPreferences()
-                        .getString("userDP", ""),
-                new LazyHeaders.Builder().addHeader("Authorization", "Bearer " + sharedPrefHelper.getToken())
+    public static void glideRequest(String dpURL, ImageView imageView, String token){
+        GlideUrl url1 = new GlideUrl(dpURL,
+                new LazyHeaders.Builder().addHeader("Authorization", "Bearer " + token)
                 .build());
         Glide.with(imageView.getContext())
                 .load(url1)

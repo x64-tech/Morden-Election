@@ -66,11 +66,11 @@ public class ElectionFragment extends Fragment {
     }
 
     private void initVAR() {
-        sharedPrefHelper = new SharedPrefHelper(this.requireContext());
-        requestQueue = Volley.newRequestQueue(this.requireContext());
-        alertDialog = new AlertDialog.Builder(this.requireContext());
+        sharedPrefHelper = new SharedPrefHelper(this.getContext());
+        requestQueue = Volley.newRequestQueue(this.getContext());
+        alertDialog = new AlertDialog.Builder(this.getContext());
 
-        progressDialog = new ProgressDialog(this.requireContext());
+        progressDialog = new ProgressDialog(this.getContext());
         progressDialog.setTitle("loading");
         progressDialog.setMessage("Wait while getting data...");
         progressDialog.setCancelable(false);
@@ -116,10 +116,10 @@ public class ElectionFragment extends Fragment {
         if (currentElection.size()==0){
             currentElectionRecycle.setVisibility(View.GONE);
         }else {
-            adapter1 = new CurrentElectionAdapter(this.requireContext(), currentElection);
+            adapter1 = new CurrentElectionAdapter(this.getContext(), currentElection);
             currentElectionRecycle.setAdapter(adapter1);
             currentElectionRecycle.setLayoutManager(
-                    new LinearLayoutManager(this.requireContext(),
+                    new LinearLayoutManager(this.getContext(),
                             RecyclerView.HORIZONTAL, false));
         }
 
@@ -127,18 +127,18 @@ public class ElectionFragment extends Fragment {
             upcomingElectionRecycle.setVisibility(View.GONE);
             upcoming.setVisibility(View.GONE);
         }else {
-            adapter2 = new UpElectionAdapter(this.requireContext(), upcomingElection);
+            adapter2 = new UpElectionAdapter(this.getContext(), upcomingElection);
             upcomingElectionRecycle.setAdapter(adapter2);
             upcomingElectionRecycle.setLayoutManager(
-                    new LinearLayoutManager(this.requireContext(),
+                    new LinearLayoutManager(this.getContext(),
                             RecyclerView.HORIZONTAL, false));
         }
 
         System.out.println(pastElection);
-        adapter3 = new PastElectionAdapter(this.requireContext(), pastElection);
+        adapter3 = new PastElectionAdapter(this.getContext(), pastElection);
         pastElectionRecycle.setAdapter(adapter3);
         pastElectionRecycle.setLayoutManager(
-                new LinearLayoutManager(this.requireContext(),
+                new LinearLayoutManager(this.getContext(),
                         RecyclerView.VERTICAL, false));
         progressDialog.dismiss();
     }
